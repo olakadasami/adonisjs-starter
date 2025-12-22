@@ -22,6 +22,6 @@ export default class ResetPasswordNotification extends BaseMail {
     const path = router.makeUrl('api.v1.auth.resetPasswordForm', { token: this.token })
     const domain = env.get('APP_URL')
     const url = domain + path
-    this.message.to(this.user.email).htmlView('emails/password_reset', { url, user: this.user })
+    this.message.to(this.user.email).htmlView('mails/reset_password', { url, user: this.user })
   }
 }
