@@ -1,0 +1,26 @@
+<div
+  style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;"
+>
+  <h1 style="color: #2c3e50; font-size: 28px; margin-bottom: 20px; text-align: center;">
+    Welcome {{user.fullName}}!
+  </h1>
+
+  <div
+    style="font-size: 16px; color: #34495e; line-height: 1.5; margin-bottom: 25px; text-align: center;"
+  >
+    You're one click away from joining the action. Verify your email now and dive in!
+  </div>
+
+  <div style="text-align: center; margin-bottom: 30px;">
+    <a
+      href="{{ url }}"
+      style="display: inline-block; background-color: #e74c3c; color: white; padding: 14px 30px; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: bold;"
+    >
+      Verify My Email
+        </a>
+  </div>
+
+  <div style="font-size: 14px; color: #7f8c8d; text-align: center;">
+    Trouble with the button? Use this link: <a href="{{ url }}" style="color: #3498db;">{{ url }}</a>
+  </div>
+</div>
