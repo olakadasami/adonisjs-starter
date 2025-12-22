@@ -5,7 +5,7 @@ import { AuthResponseDto } from '../../dto/auth_dto.js'
 import { ApiBody, ApiOperation, ApiResponse } from '@foadonis/openapi/decorators'
 import logger from '@adonisjs/core/services/logger'
 import env from '#start/env'
-// import UserRegistered from '#events/user_registered'
+import UserRegistered from '#events/user_registered'
 
 // Constants for reusability
 const SUCCESS_MESSAGE = 'User registered, Check mail to verify user account'
@@ -26,7 +26,6 @@ export default class RegisterController {
     const data = await request.validateUsing(registerValidator)
 
     // Perform database operations in a transaction
-    // const user = await this.authService.createUserAndOrganization(data)
     const user = await User.create({
       email: data.email,
       password: data.password,
@@ -38,8 +37,7 @@ export default class RegisterController {
 
     // Send email verification
     if (env.get('NODE_ENV') !== 'test') {
-      // await this.authService.sendVerificationEmail(user) // Old way to send verification email
-      //   UserRegistered.dispatch(user.id) // New way using events
+      UserRegistered.dispatch(user.id)
     }
     // Log success
     logger.info(`User registered successfully: ${user.email}`)

@@ -22,6 +22,6 @@ export default class VerifyEmailNotification extends BaseMail {
     const path = router.makeUrl('api.v1.auth.verifyEmail', { token: this.token })
     const domain = env.get('APP_URL')
     const url = domain + path
-    this.message.to(this.user.email).htmlView('emails/verify', { url, user: this.user })
+    this.message.to(this.user.email).htmlView('mails/verify_email', { url, user: this.user })
   }
 }
