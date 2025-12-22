@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import Token from '#models/token'
 import { ApiOperation, ApiParam, ApiResponse } from '@foadonis/openapi/decorators'
 import Mails from '#enums/mails'
+import UserRegistered from '#events/user_registered'
 
 export default class VerifyEmailController {
   @ApiOperation({
@@ -35,7 +36,8 @@ export default class VerifyEmailController {
       return response.badRequest({ message: 'Email already verified' })
     }
 
-    // await user.sendVerifyEmail()
+    // Send Email
+    UserRegistered.dispatch(user.id)
 
     return response.ok({ message: 'Verification email sent' })
   }

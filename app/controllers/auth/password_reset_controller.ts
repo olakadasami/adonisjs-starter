@@ -1,11 +1,9 @@
 import Mails from '#enums/mails'
+import RequestPasswordReset from '#events/request_password_reset'
 import Token from '#models/token'
 import User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
-// import Mails from '../../enums/mails.js'
-// import Token from '#models/token'
 import { ApiBody, ApiOperation, ApiResponse } from '@foadonis/openapi/decorators'
-// import RequestPasswordReset from '#events/request_password_reset'
 
 export default class PasswordResetController {
   @ApiOperation({
@@ -46,7 +44,7 @@ export default class PasswordResetController {
     const user = await User.findByOrFail('email', email)
 
     // Send Email
-    // RequestPasswordReset.dispatch(user.id) // New way using events
+    RequestPasswordReset.dispatch(user.id) // New way using events
 
     return response.ok({ message: 'Password reset email added to queue' })
   }
