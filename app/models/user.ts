@@ -1,13 +1,15 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import { ApiProperty } from '@foadonis/openapi/decorators'
 import { uuidv7 } from 'uuidv7'
 import Role from './role.js'
-import { type BelongsTo } from '@adonisjs/lucid/types/relations'
+import type { HasMany, BelongsTo } from '@adonisjs/lucid/types/relations'
+import Token from './token.js'
+import Mails from '#enums/mails'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -54,6 +56,15 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @belongsTo(() => Role)
   declare role: BelongsTo<typeof Role>
+
+  @hasMany(() => Token)
+  declare tokens: HasMany<typeof Token>
+
+  @hasMany(() => Token, { onQuery: (query) => query.where('type', Mails.PASSWORD_RESET) })
+  declare passwordResetTokens: HasMany<typeof Token>
+
+  @hasMany(() => Token, { onQuery: (query) => query.where('type', Mails.VERIFY_EMAIL) })
+  declare verifyEmailTokens: HasMany<typeof Token>
 
   static accessTokens = DbAccessTokensProvider.forModel(User)
 
